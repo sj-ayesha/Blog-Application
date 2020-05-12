@@ -1,13 +1,13 @@
-<form>
+<form (ngSubmit)="addPost()">
   <div class="row">
     <div class="col">
-      <input type="text" class="form-control" placeholder="Title">
+      <input type="text" [(ngModel)]="newPost.title" name="title" class="form-control" placeholder="Title">
     </div>
     <div class="col">
-      <input type="text" class="form-control" placeholder="Description">
+      <input type="text" [(ngModel)]="newPost.description" name="description" class="form-control" placeholder="Description">
     </div>
     <div class="col">
-      <a href="#" class="btn btn-outline-secondary" tabindex="-1" role="button" aria-disabled="true">Add Post</a>
+      <button type="submit" class="btn btn-outline-secondary">Add Post</button>
     </div>
   </div>
 </form>

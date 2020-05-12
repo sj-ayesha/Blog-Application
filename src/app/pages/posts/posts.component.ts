@@ -1,33 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/shared/models/post.model';
 import { AppState } from 'src/app/shared/models/app-state.models';
 import { Store } from '@ngrx/store';
 import { v4 as uuid } from 'uuid';
-import { AddPostAction } from 'src/app/store/actions/post.actions';
+import { AddPostAction, DeletePostAction, LoadPostAction } from 'src/app/store/actions/post.actions';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent implements OnInit{
 
+  // Display List of Posts
   posts: Observable<Array<Post>>;
-  newPost: Post = { id: '', title: '', description: '' };
+
+  loading$ : Observable<Boolean>;
+  error$: Observable<Error>;
+
+  newPost: Post = {id: '', title: '', description: ''};
 
   constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.posts = this.store.select(store => store.post);
+    // Display List of Posts
+    this.posts = this.store.select(store => store.post.list);
+    this.loading$ = this.store.select(store => store.post.loading);
+    this.error$ = this.store.select(store => store.post.error);
+
+    this.store.dispatch(new LoadPostAction());
   }
 
-  addPost() {
-    this.newPost.id = uuid();
-
-    this.store.dispatch(new AddPostAction(this.newPost));
-
-    this.newPost = { id: '', title: '', description: ''};
+  onDeletePost(id: string) {
+    this.store.dispatch(new DeletePostAction(id));
   }
-
 }

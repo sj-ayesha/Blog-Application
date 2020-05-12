@@ -1,18 +1,74 @@
 import { PostActionTypes, PostAction } from '../actions/post.actions';
 import { Post } from '../../shared/models/post.model';
 
-const initialState: Array<Post> = [
-  {
-    id: '1',
-    title: 'Diet Coke',
-    description: 'It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages',
-  }
-];
+export interface PostState {
+  list: Post[];
+  loading: boolean;
+  error: Error;
+}
 
-export function PostReducer(state: Array<Post> = initialState, action: PostAction) {
+const initialState: PostState = {
+  list: [],
+  loading: false,
+  error: undefined
+}
+
+export function PostReducer(state: PostState = initialState, action: PostAction) {
   switch (action.type) {
+    case PostActionTypes.LOAD_POST:
+      return {
+        ...state,
+        loading: true
+      };
+    case PostActionTypes.LOAD_POST_SUCCESS:
+      return {
+        ...state,
+        list: action.payload,
+        loading: false
+      };
+    case PostActionTypes.LOAD_POST_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
+
     case PostActionTypes.ADD_POST:
-      return [...state, action.payload];
+      return {
+        ...state,
+        loading: true
+      };
+    case PostActionTypes.ADD_POST_SUCCESS:
+      return {
+        ...state,
+        list: [...state.list, action.payload],
+        loading: false
+      };
+    case PostActionTypes.ADD_POST_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
+
+    case PostActionTypes.DELETE_POST:
+      return {
+        ...state,
+        loading: true
+      };
+    case PostActionTypes.DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter(post => post.id !== action.payload),
+        loading: false
+      };
+    case PostActionTypes.DELETE_POST_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
+
     default:
       return state;
   }

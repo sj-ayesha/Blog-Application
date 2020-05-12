@@ -1,5 +1,5 @@
-import { Post } from './post.model';
+import { PostState } from 'src/app/store/reducers/post.reducer';
 
 export interface AppState {
-  readonly post: Array<Post>
+  readonly post: PostState;
 }
