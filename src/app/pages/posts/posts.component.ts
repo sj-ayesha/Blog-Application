@@ -1,38 +1,55 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Post } from 'src/app/shared/models/post.model';
-import { AppState } from 'src/app/shared/models/app-state.models';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { PostAppState } from 'src/store/models/post-state.model';
+import { Observable } from 'rxjs';
+import { PostItem } from 'src/store/models/post-item.models';
+import { AddPostAction, DeletePostAction, LoadPostAction } from 'src/store/actions/posts.actions';
 import { v4 as uuid } from 'uuid';
-import { AddPostAction, DeletePostAction, LoadPostAction } from 'src/app/store/actions/post.actions';
-
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
 })
-export class PostsComponent implements OnInit{
+export class PostsComponent implements OnInit {
 
-  // Display List of Posts
-  posts: Observable<Array<Post>>;
-
-  loading$ : Observable<Boolean>;
+  postItems$: Observable<Array<PostItem>>;
+  loading$: Observable<Boolean>;
   error$: Observable<Error>;
+  newPostItem: PostItem = { id: '', title: '', description: '' };
 
-  newPost: Post = {id: '', title: '', description: ''};
+  // shoppingItems$: Observable<Array<ShoppingItem>>;
+  // loading$: Observable<Boolean>;
+  // error$: Observable<Error>;
+  // newShoppingItem: ShoppingItem = { id: '', name: ''};
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<PostAppState>) { }
 
   ngOnInit(): void {
-    // Display List of Posts
-    this.posts = this.store.select(store => store.post.list);
+
+    this.postItems$ = this.store.select(store => store.post.list);
     this.loading$ = this.store.select(store => store.post.loading);
     this.error$ = this.store.select(store => store.post.error);
+
+    // this.shoppingItems$ = this.store.select(store => store.shopping.list);
+    // this.loading$ = this.store.select(store => store.shopping.loading);
+    // this.error$ = this.store.select(store => store.shopping.error);
 
     this.store.dispatch(new LoadPostAction());
   }
 
-  onDeletePost(id: string) {
+  addItem() {
+
+    this.newPostItem.id = uuid();
+    this.store.dispatch(new AddPostAction(this.newPostItem));
+
+    this.newPostItem = { id: '', title: '', description: '' };
+    // this.newShoppingItem.id = uuid();
+    // this.store.dispatch(new AddItemAction(this.newShoppingItem));
+
+    // this.newShoppingItem = {id: '', name: ''};
+  }
+
+  deleteItem(id: string) {
     this.store.dispatch(new DeletePostAction(id));
   }
 }

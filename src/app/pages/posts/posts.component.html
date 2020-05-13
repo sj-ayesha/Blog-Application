@@ -1,29 +1,37 @@
 <app-carousel></app-carousel>
-<div class="post-container"  [class.loading]="(loading$ | async)" *ngIf="!(error$ | async); else error">
-  <div class="container">
+<div class="post-container container">
+  <div [class.loading]="(loading$ | async)" id="shopping-list" *ngIf="!(error$ | async); else error">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-post">
-        <app-add-post></app-add-post>
+        <!-- <app-add-post></app-add-post> -->
+        <form (ngSubmit)="addItem()">
+          <div class="row">
+            <div class="col">
+              <input type="text" [(ngModel)]="newPostItem.title" name="title" class="form-control" placeholder="Title" />
+            </div>
+            <div class="col">
+              <input type="text" [(ngModel)]="newPostItem.description" name="description" class="form-control" placeholder="Description">
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-outline-secondary">Add Post</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-  </div>
-  <div class="container">
-    <div class="row" *ngIf="(posts | async); else noPosts">
-      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 card-box" *ngFor="let post of posts | async">
+
+    <div class="row" *ngIf="(postItems$ | async); else noItems">
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 card-box" *ngFor="let post of postItems$ | async">
         <div class="card">
           <img src="../../../assets/img/blog.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.description }}</p>
-            <button (click)="onDeletePost(post.id)" class="btn btn-danger">Delete</button>
+            <button (click)="deleteItem(post.id)" class="btn btn-danger">Delete</button>
           </div>
         </div>
       </div>
     </div>
-
-    <ng-template #noPosts>
-      <p class="text-center">No items found. Are you sure there's <em>nothing</em> you want?</p>
-    </ng-template>
   </div>
 </div>
 
@@ -31,3 +39,9 @@
   <h2>{{(error$ | async)?.message}}</h2>
 </ng-template>
 
+<ng-template #noItems>
+  <ul>
+    <li style="max-width:250px;margin:0 auto;">No items found. Are you sure there's <em>nothing</em> you want?
+    </li>
+  </ul>
+</ng-template>
