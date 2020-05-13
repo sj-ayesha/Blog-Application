@@ -14,13 +14,15 @@ import { PostEffects } from 'src/store/effects/post.effects';
 import { HomeComponent } from './pages/home/home.component';
 import { PostsComponent } from './pages/posts/posts.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { ModalBoxComponent } from './components/modal-box/modal-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     PostsComponent,
-    CarouselComponent
+    CarouselComponent,
+    ModalBoxComponent
   ],
   imports: [
     BrowserModule,
