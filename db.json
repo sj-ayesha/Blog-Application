@@ -1,5 +1,5 @@
 {
-  "shopping": [
+  "posts": [
     {
       "id": "507adb99-b8ed-4478-97f4-3f42624b9f70",
       "title": "pizza",
@@ -19,11 +19,6 @@
       "id": "c6b316f8-07b0-444f-ac13-e3973ff2ba41",
       "title": "Hello World",
       "description": "Salary"
-    },
-    {
-      "id": "58c31f38-7d25-4dc9-8e6f-17318bce6c7b",
-      "title": "Hello World",
-      "description": "teey"
     }
   ]
 }

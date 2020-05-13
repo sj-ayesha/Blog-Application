@@ -9,7 +9,7 @@ import { PostItem } from 'src/store/models/post-item.models';
 })
 export class PostService {
 
-  private POST_URL = 'http://localhost:3000/shopping';
+  private POST_URL = 'http://localhost:3000/posts';
 
   constructor(private http: HttpClient) { }
 

@@ -17,10 +17,6 @@ export class PostsComponent implements OnInit {
   error$: Observable<Error>;
   newPostItem: PostItem = { id: '', title: '', description: '' };
 
-  // shoppingItems$: Observable<Array<ShoppingItem>>;
-  // loading$: Observable<Boolean>;
-  // error$: Observable<Error>;
-  // newShoppingItem: ShoppingItem = { id: '', name: ''};
 
   constructor(private store: Store<PostAppState>) { }
 
@@ -30,9 +26,6 @@ export class PostsComponent implements OnInit {
     this.loading$ = this.store.select(store => store.post.loading);
     this.error$ = this.store.select(store => store.post.error);
 
-    // this.shoppingItems$ = this.store.select(store => store.shopping.list);
-    // this.loading$ = this.store.select(store => store.shopping.loading);
-    // this.error$ = this.store.select(store => store.shopping.error);
 
     this.store.dispatch(new LoadPostAction());
   }
@@ -43,10 +36,6 @@ export class PostsComponent implements OnInit {
     this.store.dispatch(new AddPostAction(this.newPostItem));
 
     this.newPostItem = { id: '', title: '', description: '' };
-    // this.newShoppingItem.id = uuid();
-    // this.store.dispatch(new AddItemAction(this.newShoppingItem));
-
-    // this.newShoppingItem = {id: '', name: ''};
   }
 
   deleteItem(id: string) {
